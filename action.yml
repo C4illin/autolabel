@@ -1,4 +1,4 @@
-name: "autolabel"
+name: "Conventional Autolabeler"
 description: "Label pull requests based on conventional commit PR titles (feat, fix, etc.)"
 author: "Emrik Östling"
 branding:
