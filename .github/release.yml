@@ -18,3 +18,5 @@ changelog:
       labels: [build, ci]
     - title: Reverts
       labels: [revert]
+    - title: Other changes
+      labels: ["*"]
