@@ -1,0 +1,35 @@
+{
+  "name": "autolabel",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GitHub Action that labels pull requests based on conventional commit PR titles",
+  "keywords": [
+    "conventional-commits",
+    "github-actions",
+    "labels"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/index.mjs",
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --format=esm --target=node24 --minify --outfile=dist/index.mjs --banner:js=\"import { createRequire } from 'node:module'; const require = createRequire(import.meta.url);\"",
+    "typecheck": "tsc --noEmit",
+    "lint": "oxlint --ignore-pattern 'dist/**'",
+    "lint:fix": "oxlint --ignore-pattern 'dist/**' --fix",
+    "format": "oxfmt --write",
+    "all": "npm run typecheck && npm run build && npm run lint:fix && npm run format"
+  },
+  "dependencies": {
+    "@actions/core": "^3.0.1",
+    "@actions/github": "^9.1.1",
+    "js-yaml": "^5.2.3"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^24.0.0",
+    "esbuild": "^0.28.1",
+    "oxfmt": "^0.62.0",
+    "oxlint": "^1.77.0",
+    "typescript": "^7.0.2"
+  }
+}

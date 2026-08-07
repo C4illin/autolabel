@@ -1,0 +1,30 @@
+name: "autolabel"
+description: "Label pull requests based on conventional commit PR titles (feat, fix, etc.)"
+author: "Emrik Östling"
+branding:
+  icon: "tag"
+  color: "blue"
+inputs:
+  token:
+    description: "GitHub token used to add/remove labels"
+    default: ${{ github.token }}
+  create_missing_labels:
+    description: "Create labels that do not exist in the repository yet"
+    default: "true"
+  type_labels:
+    description: "YAML/JSON map of conventional commit types to the label(s) to apply"
+    default: >-
+      {feat: feature, fix: fix, docs: documentation, style: style,
+      refactor: refactor, perf: performance, test: test, build: build,
+      ci: ci, revert: revert, breaking: breaking}
+  ignore_label:
+    description: "If the PR already has this label, the action does nothing"
+    default: ""
+outputs:
+  labels_added:
+    description: "JSON array of labels that were added"
+  labels_removed:
+    description: "JSON array of labels that were removed"
+runs:
+  using: "node24"
+  main: "dist/index.mjs"
