@@ -37,11 +37,14 @@ jobs:
 
 `type_labels` maps commit types to the label(s) to apply — one label or a list (`breaking: [breaking, major]`). The example shows the default mapping, so leave `with:` off entirely if it already suits you. The `breaking` entry is applied when the title contains `!` or the PR body has a `BREAKING CHANGE:` footer.
 
-Remaining inputs, all optional:
+All inputs are optional:
 
-- `ignore_label` — opts a PR out: no labels are added, and any the action added earlier are removed. Default: unset
-- `create_missing_labels` — create labels that don't exist yet, colored from a built-in palette. Default: `true`
-- `token` — defaults to `${{ github.token }}`
+| Input                   | Description                                                                      | Default                 |
+| ----------------------- | -------------------------------------------------------------------------------- | ----------------------- |
+| `type_labels`           | Map of commit types to the label(s) to apply                                     | the mapping shown above |
+| `ignore_label`          | Opts a PR out: no labels are added, and any the action added earlier are removed | unset                   |
+| `create_missing_labels` | Create labels that don't exist in the repo yet (GitHub picks their colors)       | `true`                  |
+| `token`                 | GitHub token used to add/remove labels                                           | `${{ github.token }}`   |
 
 ## Outputs
 
@@ -58,4 +61,4 @@ npm install
 npm run all
 ```
 
-`dist/` must be committed — GitHub runs `dist/index.mjs` directly from the repo. After changing `src/`, rerun `npm run all` and commit the result.
+`dist/` must be committed since GitHub runs `dist/index.mjs` directly from the repo.
