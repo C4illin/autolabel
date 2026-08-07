@@ -78,7 +78,9 @@ export async function run(): Promise<void> {
 
   // With the ignore label present, desired stays empty: no labels are
   // added and previously added managed labels are removed below.
-  const ignored = Boolean(config.ignoreLabel) && currentLabels.includes(config.ignoreLabel);
+  const ignored =
+    Boolean(config.ignoreLabel) &&
+    currentLabels.some((label) => label.toLowerCase() === config.ignoreLabel.toLowerCase());
 
   const title: string = pr.title ?? "";
   const match = TITLE_PATTERN.exec(title);
@@ -99,11 +101,20 @@ export async function run(): Promise<void> {
   }
 
   // Only ever touch labels this action manages, so manually added
-  // labels outside type_labels are left alone.
-  const managed = new Set<string>(Object.values(config.typeLabels).flat());
+  // labels outside type_labels are left alone. GitHub matches label
+  // names case-insensitively, so all comparisons lowercase both sides.
+  const managed = new Set<string>(
+    Object.values(config.typeLabels)
+      .flat()
+      .map((label) => label.toLowerCase()),
+  );
+  const desiredLower = new Set<string>([...desired].map((label) => label.toLowerCase()));
+  const currentLower = new Set<string>(currentLabels.map((label) => label.toLowerCase()));
 
-  const toAdd = [...desired].filter((label) => !currentLabels.includes(label));
-  const toRemove = currentLabels.filter((label) => managed.has(label) && !desired.has(label));
+  const toAdd = [...desired].filter((label) => !currentLower.has(label.toLowerCase()));
+  const toRemove = currentLabels.filter(
+    (label) => managed.has(label.toLowerCase()) && !desiredLower.has(label.toLowerCase()),
+  );
 
   const { owner, repo } = github.context.repo;
 
