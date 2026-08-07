@@ -4,6 +4,8 @@ Labels pull requests based on [conventional commit](https://www.conventionalcomm
 
 `feat: add login page` → `feature` label, `fix!: rewrite auth` → `fix` + `breaking` labels, and so on. When a title is edited, labels the action previously added are removed if they no longer match. Labels not listed in `type_labels` are never touched.
 
+These labels can then be used to group [automatically generated release notes](https://docs.github.com/en/repositories/releasing-projects-on-github/automatically-generated-release-notes) into categories. See this repo's [.github/release.yml](.github/release.yml) for an example.
+
 ## Usage
 
 ```yaml

@@ -1,0 +1,20 @@
+changelog:
+  categories:
+    - title: Breaking changes
+      labels: [breaking]
+    - title: Features
+      labels: [feature]
+    - title: Bug fixes
+      labels: [fix]
+    - title: Performance
+      labels: [performance]
+    - title: Refactoring
+      labels: [refactor, style]
+    - title: Documentation
+      labels: [documentation]
+    - title: Tests
+      labels: [test]
+    - title: Build & CI
+      labels: [build, ci]
+    - title: Reverts
+      labels: [revert]
