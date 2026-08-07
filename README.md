@@ -11,11 +11,15 @@ These labels can then be used to group [automatically generated release notes](h
 ```yaml
 name: autolabel
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, edited, labeled, unlabeled]
 
 permissions:
   pull-requests: write
+
+concurrency:
+  group: autolabel-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 jobs:
   label:
@@ -36,6 +40,8 @@ jobs:
             revert: revert
             breaking: breaking
 ```
+
+The trigger is `pull_request_target` rather than `pull_request` so that PRs from forks get labeled too. On fork PRs the regular `pull_request` token is read-only and can't add labels. This is safe as long as the workflow never checks out or runs the PR's code.
 
 `type_labels` maps commit types to the label(s) to apply — one label or a list (`breaking: [breaking, major]`). The example shows the default mapping, so leave `with:` off entirely if it already suits you. The `breaking` entry is applied when the title contains `!` or the PR body has a `BREAKING CHANGE:` footer.
 

@@ -1,10 +1,14 @@
 name: autolabel
 on:
-  pull_request:
+  pull_request_target:
     types: [opened, edited]
 
 permissions:
   pull-requests: write
+
+concurrency:
+  group: autolabel-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
 
 jobs:
   label:
