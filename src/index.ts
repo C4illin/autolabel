@@ -1,6 +1,6 @@
 import * as core from "@actions/core";
 import * as github from "@actions/github";
-import * as yaml from "js-yaml";
+import * as yaml from "yaml";
 
 // Matches conventional commit titles: "type(optional scope)!: subject"
 const TITLE_PATTERN = /^(?<type>[A-Za-z]+)(?:\((?<scope>[^)]*)\))?(?<breaking>!)?:/;
@@ -26,10 +26,10 @@ function normalizeTypeLabels(raw: Record<string, string | string[]>): Record<str
 
 // Inputs are parsed as YAML; JSON is valid YAML, so both
 // '{"feat": ["feature"]}' and a multi-line "feat: feature" block work.
-// js-yaml throws on empty input, so blank inputs skip parsing.
+// Blank inputs skip parsing so they yield undefined rather than null.
 function yamlInput(name: string): unknown {
   const raw = core.getInput(name);
-  return raw.trim() ? yaml.load(raw) : undefined;
+  return raw.trim() ? yaml.parse(raw) : undefined;
 }
 
 function loadConfig(): Config {
